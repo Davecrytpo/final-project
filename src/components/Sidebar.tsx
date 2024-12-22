@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Twitter } from 'lucide-react';
 import MenuItem from './navigation/MenuItem';

@@ -1,5 +1,5 @@
 import { Home, Search, Bell, Mail, Bookmark, Users, User, Settings, Bot } from 'lucide-react';
-import type { IconType } from './types';
+// import type { IconType } from './types';
 
 export const MENU_ITEMS = [
   { icon: Home, label: 'Home', path: '/' },

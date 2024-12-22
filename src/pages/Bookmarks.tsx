@@ -1,4 +1,3 @@
-import React from 'react';
 import { Settings, Share2 } from 'lucide-react';
 import Tweet from '../components/Tweet';
 

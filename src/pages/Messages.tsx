@@ -1,4 +1,3 @@
-import React from 'react';
 import { Search, Settings, Edit } from 'lucide-react';
 
 const MESSAGES = [

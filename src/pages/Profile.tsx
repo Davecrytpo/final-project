@@ -85,8 +85,11 @@ export default function Profile() {
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    // In a real app, we would fetch different content based on the active tab
-    // For now, we'll just show the same tweets for all tabs
+    if (tab === 'Posts') {
+      setTweets(PROFILE_TWEETS); // Update tweets when the tab changes
+  } else {
+      setTweets([]); // Or some other logic for different tabs
+  }
   };
 
   return (

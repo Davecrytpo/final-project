@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function VerifiedBadge() {
   return (
     <svg className="h-5 w-5 ml-1 text-blue-500" viewBox="0 0 24 24">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Users, Plus, Search } from 'lucide-react';
 
 const COMMUNITIES = [

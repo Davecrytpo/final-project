@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ArrowLeft, Calendar, MapPin, Link as LinkIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

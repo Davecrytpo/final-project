@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, _password: string) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -39,7 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name: email.split('@')[0],
         username: email.split('@')[0].toLowerCase(),
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
-        verified: false
+        verified: false,
+        followers: 0,
+        following: 0 
       };
 
       localStorage.setItem('user', JSON.stringify(mockUser));
@@ -52,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signup = async (name: string, email: string, password: string) => {
+  const signup = async (name: string, email: string, _password: string) => {
     try {
       setIsLoading(true);
       setError(null);
@@ -63,7 +65,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name,
         username: email.split('@')[0].toLowerCase(),
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
-        verified: false
+        verified: false,
+        followers: 0,
+        following: 0
       };
 
       localStorage.setItem('user', JSON.stringify(mockUser));

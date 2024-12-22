@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ProfileTabsProps {
   activeTab: string;
   onTabChange: (tab: string) => void;

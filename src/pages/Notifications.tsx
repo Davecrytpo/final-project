@@ -1,5 +1,7 @@
 import React from 'react';
 import { MessageCircle, Heart, Repeat2, UserPlus, Settings, AtSign } from 'lucide-react';
+import { Bell } from 'lucide-react';
+
 
 const TABS = ['All', 'Verified', 'Mentions'];
 

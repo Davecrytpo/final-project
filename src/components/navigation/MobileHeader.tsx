@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Menu, Twitter } from 'lucide-react';
 import { User } from '../../types';
 
