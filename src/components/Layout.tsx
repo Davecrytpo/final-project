@@ -1,5 +1,5 @@
 import  { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import TrendingSidebar from './TrendingSidebar';
 import MobileHeader from './MobileHeader';
@@ -11,6 +11,14 @@ export default function Layout() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const { isOpen, close, open } = useCompose();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [liveMsg, setLiveMsg] = useState('');
+
+  // Announce route changes
+  useEffect(() => {
+    const pathLabel = location.pathname === '/' ? 'Home' : location.pathname.replace('/', '');
+    setLiveMsg(`Navigated to ${pathLabel}`);
+  }, [location.pathname]);
 
   // Keyboard shortcuts: n -> compose, / -> search, g then h -> home
   useEffect(() => {
@@ -22,6 +30,7 @@ export default function Layout() {
       if (e.key === 'n' || e.key === 'N') {
         e.preventDefault();
         open();
+        setLiveMsg('Compose opened');
         return;
       }
       if (e.key === '/') {
@@ -47,6 +56,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <div aria-live="polite" className="sr-only">{liveMsg}</div>
       <MobileHeader onMenuClick={() => setIsMobileNavOpen(true)} />
       <MobileNav isOpen={isMobileNavOpen} onClose={() => setIsMobileNavOpen(false)} />
       
@@ -64,6 +74,7 @@ export default function Layout() {
           onPost={() => {
             // You can hook into a global feed state here
             close();
+            setLiveMsg('Post submitted');
           }}
           user={{ id: 'me', name: 'Jane Doe', username: 'janedoe', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100', verified: true, followers: 1000, following: 200 }}
         />
