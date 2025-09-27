@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import MenuItem from './MenuItem';
 import Tooltip from '../shared/Tooltip';
+import { prefetchRoute } from '../../utils/prefetch';
 
 export const MENU_ITEMS = [
   { icon: Home, label: 'Home', path: '/home' },
@@ -35,6 +36,7 @@ export default function NavigationMenu({ onNavigate, className = '' }: Navigatio
             label={item.label}
             isActive={location.pathname === item.path}
             onClick={() => onNavigate(item.path)}
+            onMouseEnter={() => prefetchRoute(item.path)}
           />
         </Tooltip>
       ))}

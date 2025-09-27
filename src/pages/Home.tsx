@@ -2,51 +2,10 @@ import React, { useState } from 'react';
 import { Settings, Image, Smile, Calendar, MapPin } from 'lucide-react';
 import Tweet from '../components/Tweet';
 import { Tweet as TweetType } from '../types';
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { generateTweets } from '../mocks/feed';
 
-const FOR_YOU_TWEETS: TweetType[] = [
-  {
-    id: '1',
-    content: 'Just launched our new AI feature! Check it out 🚀 #AI #Technology',
-    author: {
-      id: '1',
-      name: 'Tech Company',
-      username: 'techcompany',
-      avatar: 'https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&q=80&w=100&h=100',
-      verified: true,
-      followers: 50000,
-      following: 1200,
-    },
-    createdAt: '2h',
-    likes: 1234,
-    replies: 89,
-    reposts: 234,
-    views: 12400,
-    images: ['https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800'],
-  },
-  // Add more tweets...
-];
 
-const FOLLOWING_TWEETS: TweetType[] = [
-  {
-    id: '2',
-    content: 'Working on something exciting! Stay tuned 👀 #WebDev',
-    author: {
-      id: '2',
-      name: 'Jane Developer',
-      username: 'janedev',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100',
-      verified: true,
-      followers: 25000,
-      following: 500,
-    },
-    createdAt: '1h',
-    likes: 456,
-    replies: 23,
-    reposts: 45,
-    views: 5600,
-  },
-  // Add more tweets...
-];
 
 export default function Home() {
   const [tab, setTab] = useState<'for-you' | 'following'>('for-you');
@@ -55,13 +14,34 @@ export default function Home() {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const tweets = tab === 'for-you' ? FOR_YOU_TWEETS : FOLLOWING_TWEETS;
+  const [feed, setFeed] = useState<TweetType[]>([]);
+  const [offset, setOffset] = useState(0);
 
   React.useEffect(() => {
     setLoading(true);
-    const t = setTimeout(() => setLoading(false), 700);
+    setFeed([]);
+    setOffset(0);
+    const initial = generateTweets(tab, 0, 10);
+    const t = setTimeout(() => {
+      setFeed(initial);
+      setOffset(10);
+      setLoading(false);
+    }, 400);
     return () => clearTimeout(t);
   }, [tab]);
+
+  const loadMore = React.useCallback(() => {
+    if (loading) return;
+    setLoading(true);
+    const next = generateTweets(tab, offset, 10);
+    setTimeout(() => {
+      setFeed((prev) => [...prev, ...next]);
+      setOffset((o) => o + 10);
+      setLoading(false);
+    }, 500);
+  }, [loading, tab, offset]);
+
+  const sentinelRef = useInfiniteScroll<HTMLDivElement>({ onIntersect: loadMore, disabled: loading });
 
   const handlePost = () => {
     if (!newTweet.trim() && selectedImages.length === 0) return;
@@ -180,11 +160,26 @@ export default function Home() {
       </div>
 
       <div className="divide-y divide-gray-800">
-        {loading
-          ? Array.from({ length: 5 }).map((_, i) => <div key={i}><div className="p-4 border-b border-gray-800 animate-pulse"><div className="flex space-x-3"><div className="h-12 w-12 rounded-full bg-gray-800" /><div className="flex-1 space-y-3"><div className="h-4 w-1/3 bg-gray-800 rounded" /><div className="h-4 w-2/3 bg-gray-800 rounded" /><div className="grid grid-cols-2 gap-2 mt-2"><div className="aspect-square bg-gray-800 rounded-2xl" /><div className="aspect-square bg-gray-800 rounded-2xl" /></div></div></div></div></div>)
-          : tweets.map((tweet) => (
-            <Tweet key={tweet.id} tweet={tweet} />
+        {feed.map((tweet) => (
+          <Tweet key={tweet.id} tweet={tweet} />
+        ))}
+        {(loading || feed.length === 0) &&
+          Array.from({ length: feed.length === 0 ? 6 : 2 }).map((_, i) => (
+            <div key={`sk-${i}`} className="p-4 border-b border-gray-800 animate-pulse">
+              <div className="flex space-x-3">
+                <div className="h-12 w-12 rounded-full bg-gray-800" />
+                <div className="flex-1 space-y-3">
+                  <div className="h-4 w-1/3 bg-gray-800 rounded" />
+                  <div className="h-4 w-2/3 bg-gray-800 rounded" />
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="aspect-square bg-gray-800 rounded-2xl" />
+                    <div className="aspect-square bg-gray-800 rounded-2xl" />
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
+        <div ref={sentinelRef} />
       </div>
     </div>
   );
