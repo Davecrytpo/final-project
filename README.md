@@ -82,5 +82,6 @@ npm run test:coverage
 
 ## Notes
 
-- This project preserves proper attribution and licensing where applicable.
+- This project preserves proper attribution and licensing where applicable and uses a custom, neutral X-style logo (not affiliated with Twitter/X).
 - Feel free to extend with API layers, state management (Zustand/Redux), end-to-end tests (Playwright), or deployment configs as next steps.
+- Images now use fixed dimensions and aspect ratios to minimize layout shift (CLS).

@@ -1,6 +1,7 @@
 
-import { Menu, Twitter } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { User } from '../../types';
+import Logo from '../shared/Logo';
 
 interface MobileHeaderProps {
   user: User | null;
@@ -17,11 +18,13 @@ export default function MobileHeader({ user, onMenuClick }: MobileHeaderProps) {
         >
           <Menu className="h-6 w-6" />
         </button>
-        <Twitter className="h-6 w-6" />
+        <Logo className="h-6 w-6" />
         {user && (
           <img
             src={user.avatar}
             alt={user.name}
+            width={32}
+            height={32}
             className="h-8 w-8 rounded-full"
           />
         )}

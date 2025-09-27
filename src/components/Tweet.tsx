@@ -42,6 +42,8 @@ export default function Tweet({ tweet }: TweetProps) {
         <img
           src={tweet.author.avatar}
           alt={tweet.author.name}
+          width={48}
+          height={48}
           className="h-12 w-12 rounded-full"
         />
         <div className="flex-1">
@@ -61,20 +63,30 @@ export default function Tweet({ tweet }: TweetProps) {
           </div>
           <p className="mt-2 text-white">{tweet.content}</p>
           {tweet.images && tweet.images.length > 0 && (
-            <div className={`grid gap-2 mt-3 ${
-              tweet.images.length === 1 ? 'grid-cols-1' :
-              tweet.images.length === 2 ? 'grid-cols-2' :
-              tweet.images.length === 3 ? 'grid-cols-2' :
-              'grid-cols-2'
-            }`}>
+            <div
+              className={`grid gap-2 mt-3 ${
+                tweet.images.length === 1
+                  ? 'grid-cols-1'
+                  : tweet.images.length === 2
+                    ? 'grid-cols-2'
+                    : 'grid-cols-2'
+              }`}
+            >
               {tweet.images.map((image, index) => (
-                <img
+                <div
                   key={index}
-                  src={image}
-                  alt=""
-                  className="rounded-2xl w-full h-full object-cover"
-                  style={{ maxHeight: '512px' }}
-                />
+                  className={`${
+                    tweet.images!.length === 1 ? 'aspect-[16/9]' : 'aspect-square'
+                  } overflow-hidden rounded-2xl`}
+                >
+                  <img
+                    src={image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
               ))}
             </div>
           )}

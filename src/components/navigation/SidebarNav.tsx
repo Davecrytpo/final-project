@@ -1,7 +1,8 @@
 
-import { Twitter, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { User } from '../../types';
 import NavigationMenu from './NavigationMenu';
+import Logo from '../shared/Logo';
 
 interface SidebarNavProps {
   user: User | null;
@@ -13,7 +14,7 @@ export default function SidebarNav({ user, onNavigate, onPostClick }: SidebarNav
   return (
     <aside className="hidden md:flex flex-col fixed h-screen w-64 p-4 border-r border-gray-800">
       <div className="p-2 mb-4">
-        <Twitter className="h-8 w-8 text-white" />
+        <Logo className="h-8 w-8 text-white" />
       </div>
 
       <NavigationMenu onNavigate={onNavigate} />
@@ -34,6 +35,8 @@ export default function SidebarNav({ user, onNavigate, onPostClick }: SidebarNav
             <img
               src={user.avatar}
               alt={user.name}
+              width={40}
+              height={40}
               className="h-10 w-10 rounded-full"
             />
             <div className="flex-1 text-left">

@@ -1,8 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Twitter } from 'lucide-react';
 import MenuItem from './navigation/MenuItem';
 import Button from './shared/Button';
 import { MENU_ITEMS } from '../utils/constants';
+import Logo from './shared/Logo';
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function Sidebar() {
   return (
     <aside className="fixed h-screen w-[275px] p-4 hidden md:flex flex-col border-r border-gray-800">
       <div className="p-2 mb-4">
-        <Twitter className="h-8 w-8" />
+        <Logo className="h-8 w-8" />
       </div>
 
       <nav className="flex-1 space-y-1">
@@ -40,6 +40,10 @@ export default function Sidebar() {
         <img
           src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100"
           alt="Profile"
+          width={40}
+          height={40}
+          loading="lazy"
+          decoding="async"
           className="h-10 w-10 rounded-full"
         />
         <div className="flex-1 text-left">
