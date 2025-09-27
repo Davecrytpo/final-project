@@ -14,6 +14,7 @@ export default function TrendingSidebar() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search"
+            data-search-input="true"
             className="w-full bg-gray-900 rounded-full py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>

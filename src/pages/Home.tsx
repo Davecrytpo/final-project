@@ -53,8 +53,15 @@ export default function Home() {
   const [newTweet, setNewTweet] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const tweets = tab === 'for-you' ? FOR_YOU_TWEETS : FOLLOWING_TWEETS;
+
+  React.useEffect(() => {
+    setLoading(true);
+    const t = setTimeout(() => setLoading(false), 700);
+    return () => clearTimeout(t);
+  }, [tab]);
 
   const handlePost = () => {
     if (!newTweet.trim() && selectedImages.length === 0) return;
@@ -112,6 +119,8 @@ export default function Home() {
           <img
             src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100&h=100"
             alt="Profile"
+            width={48}
+            height={48}
             className="h-12 w-12 rounded-full"
           />
           <div className="flex-1">
@@ -124,14 +133,11 @@ export default function Home() {
             />
             
             {selectedImages.length > 0 && (
-              <div className="grid grid-cols-2 gap-2 mt-2">
+              <div className={`grid gap-2 mt-2 ${selectedImages.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
                 {selectedImages.map((url, index) => (
-                  <img
-                    key={index}
-                    src={url}
-                    alt=""
-                    className="rounded-2xl w-full h-48 object-cover"
-                  />
+                  <div key={index} className={`${selectedImages.length === 1 ? 'aspect-[16/9]' : 'aspect-square'} overflow-hidden rounded-2xl`}>
+                    <img src={url} alt="" className="w-full h-full object-cover" />
+                  </div>
                 ))}
               </div>
             )}
@@ -174,9 +180,11 @@ export default function Home() {
       </div>
 
       <div className="divide-y divide-gray-800">
-        {tweets.map((tweet) => (
-          <Tweet key={tweet.id} tweet={tweet} />
-        ))}
+        {loading
+          ? Array.from({ length: 5 }).map((_, i) => <div key={i}><div className="p-4 border-b border-gray-800 animate-pulse"><div className="flex space-x-3"><div className="h-12 w-12 rounded-full bg-gray-800" /><div className="flex-1 space-y-3"><div className="h-4 w-1/3 bg-gray-800 rounded" /><div className="h-4 w-2/3 bg-gray-800 rounded" /><div className="grid grid-cols-2 gap-2 mt-2"><div className="aspect-square bg-gray-800 rounded-2xl" /><div className="aspect-square bg-gray-800 rounded-2xl" /></div></div></div></div></div>)
+          : tweets.map((tweet) => (
+            <Tweet key={tweet.id} tweet={tweet} />
+          ))}
       </div>
     </div>
   );

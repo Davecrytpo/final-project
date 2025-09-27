@@ -3,10 +3,12 @@ import MenuItem from './navigation/MenuItem';
 import Button from './shared/Button';
 import { MENU_ITEMS } from '../utils/constants';
 import Logo from './shared/Logo';
+import { useCompose } from '../contexts/ComposeContext';
 
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { open } = useCompose();
 
   return (
     <aside className="fixed h-screen w-[275px] p-4 hidden md:flex flex-col border-r border-gray-800">
@@ -31,7 +33,9 @@ export default function Sidebar() {
         size="lg"
         fullWidth
         className="mb-4"
-        onClick={() => {}}
+        onClick={() => {
+          open();
+        }}
       >
         Post
       </Button>

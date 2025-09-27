@@ -5,6 +5,7 @@ import {
   Bookmark, ListChecks
 } from 'lucide-react';
 import MenuItem from './MenuItem';
+import Tooltip from '../shared/Tooltip';
 
 export const MENU_ITEMS = [
   { icon: Home, label: 'Home', path: '/home' },
@@ -28,13 +29,14 @@ export default function NavigationMenu({ onNavigate, className = '' }: Navigatio
   return (
     <nav className={`flex-1 ${className}`}>
       {MENU_ITEMS.map((item) => (
-        <MenuItem
-          key={item.label}
-          icon={item.icon}
-          label={item.label}
-          isActive={location.pathname === item.path}
-          onClick={() => onNavigate(item.path)}
-        />
+        <Tooltip key={item.label} label={item.label} side="right">
+          <MenuItem
+            icon={item.icon}
+            label={item.label}
+            isActive={location.pathname === item.path}
+            onClick={() => onNavigate(item.path)}
+          />
+        </Tooltip>
       ))}
     </nav>
   );
